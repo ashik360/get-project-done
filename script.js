@@ -549,7 +549,9 @@ function loadServicesPage() {
                             <p>1. Visit your nearest bKash Agent</p>
                             <p>2. Provide this number: <strong>01795853197 (bKash Personal)</strong></p>
                             <p>3. Give the agent the amount <strong class="selectedPackagePrice"></strong></p>
-                            <p>4. Collect your receipt and confirm</p>
+                            <p>4. Collect agent mobile as your receipt</p>
+                            <p>5. Fill Out the form bellow</p>
+                            <p>6. Fill out the form and confirm</p>
                         </div>
                     </div>
 
@@ -2303,4 +2305,5 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Call lazy loading after page loads
     setTimeout(lazyLoadImages, 500);
+
 });
