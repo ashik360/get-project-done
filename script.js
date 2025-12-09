@@ -3,10 +3,10 @@ let currentPage = 'home';
 let paymentData = JSON.parse(localStorage.getItem('paymentData')) || [];
 
 // DOM Content Loaded
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Initialize the website
     initWebsite();
-    
+
     // Hide loading screen after 1.5 seconds
     setTimeout(() => {
         document.getElementById('loading').style.opacity = '0';
@@ -21,7 +21,7 @@ function initWebsite() {
     loadNavigation();
     loadFooter();
     loadPage('home');
-    
+
     // Set up service worker for PWA (optional)
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/service-worker.js')
@@ -32,7 +32,7 @@ function initWebsite() {
 // Load navigation
 function loadNavigation() {
     const header = document.getElementById('header');
-    
+
     header.innerHTML = `
         <nav class="navbar">
             <div class="container">
@@ -56,7 +56,7 @@ function loadNavigation() {
             </div>
         </nav>
     `;
-    
+
     // Add event listeners for mobile menu
     document.getElementById('menuToggle').addEventListener('click', toggleMobileMenu);
     document.querySelectorAll('.nav-link').forEach(link => {
@@ -71,7 +71,7 @@ function loadNavigation() {
 // Load footer
 function loadFooter() {
     const footer = document.getElementById('footer');
-    
+
     footer.innerHTML = `
         <div class="container">
             <div class="footer-content">
@@ -79,10 +79,10 @@ function loadFooter() {
                     <h3><i class="fas fa-code"></i> Android<span style="color: #00c853" class="highlight">Mastery</span></h3>
                     <p>Expert Android & Flutter development support for students and professionals.</p>
                     <div class="social-links">
-                        <a href="#"><i class="fab fa-github"></i></a>
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-discord"></i></a>
+                        <a href="https://github.com/ashik360/"><i class="fab fa-github"></i></a>
+                        <a href="https://www.linkedin.com/in/ashik360/"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://www.t.me/ashik360/"><i class="fab fa-telegram"></i></a>
+                        <a href="https://www.discord.com/ashik360/"><i class="fab fa-discord"></i></a>
                     </div>
                 </div>
                 
@@ -133,18 +133,18 @@ function toggleMobileMenu() {
 function loadPage(page) {
     currentPage = page;
     const mainContent = document.getElementById('main-content');
-    
+
     // Update active nav link
     document.querySelectorAll('.nav-link').forEach(link => {
         link.classList.remove('active');
-        if (link.textContent.toLowerCase().includes(page) || 
+        if (link.textContent.toLowerCase().includes(page) ||
             (page === 'home' && link.textContent === 'Home')) {
             link.classList.add('active');
         }
     });
-    
+
     // Load page content
-    switch(page) {
+    switch (page) {
         case 'home':
             loadHomePage();
             break;
@@ -155,7 +155,7 @@ function loadPage(page) {
             loadContactPage();
             break;
         case 'checkout':
-            loadOrderPage();    
+            loadOrderPage();
             break;
         case 'admin':
             loadAdminPage();
@@ -163,7 +163,7 @@ function loadPage(page) {
         default:
             loadHomePage();
     }
-    
+
     // Scroll to top
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -171,7 +171,7 @@ function loadPage(page) {
 // Placeholder for page loading functions
 function loadHomePage() {
     const mainContent = document.getElementById('main-content');
-    
+
     mainContent.innerHTML = `
         <!-- Hero Section -->
         <section class="hero-alt fade-in">
@@ -249,30 +249,38 @@ function loadHomePage() {
         </section>
 
 
-        <!-- Stats Section -->
-        <section class="stats-alt">
+        <!-- Facts Section (Improved) -->
+        <section class="facts-alt">
             <div class="container">
-                <div class="stats-grid">
-                    <div class="stat">
-                        <h3>50+</h3>
+                <h2 class="facts-title">Our Impact in Numbers</h2>
+
+                <div class="facts-grid">
+                    <div class="fact-card">
+                        <i class="fas fa-user-graduate fact-icon"></i>
+                        <h3><span class="fact-number" data-target="50">0</span></h3>
                         <p>Students Mentored</p>
                     </div>
-                    <div class="stat">
-                        <h3>80+</h3>
+
+                    <div class="fact-card">
+                        <i class="fas fa-mobile-alt fact-icon"></i>
+                        <h3><span class="fact-number" data-target="80">0</span>+</h3>
                         <p>Apps Built</p>
                     </div>
-                    <div class="stat">
-                        <h3>95%</h3>
+
+                    <div class="fact-card">
+                        <i class="fas fa-chart-line fact-icon"></i>
+                        <h3><span class="fact-number" data-target="95">0</span>%</h3>
                         <p>Success Rate</p>
                     </div>
                 </div>
             </div>
         </section>
 
+
         <!-- Call to Action -->
         <section class="cta-alt">
             <div class="container">
-                <h2>Take the Leap Today</h2>
+                <h2 style="color: #fff">Get Your Project Done With Perfections</h2>
                 <p>Don’t just learn — transform your career with expert guidance and hands-on experience.</p>
                 <a href="#" class="btn btn-primary" onclick="loadPage('checkout'); return false;">
                     Join Now <i class="fas fa-arrow-right"></i>
@@ -280,70 +288,55 @@ function loadHomePage() {
             </div>
         </section>
     `;
+    animateFacts();
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  const testimonials = document.querySelectorAll(".testimonial");
-  const dots = document.querySelectorAll(".dot");
-  const prevBtn = document.querySelector(".prev-btn");
-  const nextBtn = document.querySelector(".next-btn");
-  let currentIndex = 0;
-  let autoSlide;
+function animateFacts() {
+    const numbers = document.querySelectorAll(".fact-number");
 
-  function showTestimonial(index) {
-    testimonials.forEach((t, i) => {
-      t.classList.toggle("active", i === index);
-      dots[i].classList.toggle("active", i === index);
-    });
-  }
+    function runAnimation(num) {
+        const target = +num.getAttribute("data-target");
+        const step = target / 80; // smoother speed
+        let count = 0;
 
-  function nextTestimonial() {
-    currentIndex = (currentIndex + 1) % testimonials.length;
-    showTestimonial(currentIndex);
-  }
+        function update() {
+            count += step;
+            if (count >= target) {
+                num.textContent = target;
+            } else {
+                num.textContent = Math.floor(count);
+                requestAnimationFrame(update);
+            }
+        }
 
-  function prevTestimonial() {
-    currentIndex = (currentIndex - 1 + testimonials.length) % testimonials.length;
-    showTestimonial(currentIndex);
-  }
+        setTimeout(() => {   // small delay for nicer effect
+            update();
+        }, 200);
+    }
 
-  // Dot click
-  dots.forEach((dot, i) => {
-    dot.addEventListener("click", () => {
-      currentIndex = i;
-      showTestimonial(currentIndex);
-      resetAutoSlide();
-    });
-  });
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const nums = entry.target.querySelectorAll(".fact-number");
 
-  // Button events
-  nextBtn.addEventListener("click", () => {
-    nextTestimonial();
-    resetAutoSlide();
-  });
-  prevBtn.addEventListener("click", () => {
-    prevTestimonial();
-    resetAutoSlide();
-  });
+                nums.forEach(num => {
+                    num.textContent = "0"; // restart each time
+                    runAnimation(num);
+                });
+            }
+        });
+    }, { threshold: 0.4 });
 
-  // Auto slide every 4s
-  function startAutoSlide() {
-    autoSlide = setInterval(nextTestimonial, 4000);
-  }
-  function resetAutoSlide() {
-    clearInterval(autoSlide);
-    startAutoSlide();
-  }
+    observer.observe(document.querySelector('.facts-alt'));
+}
 
-  showTestimonial(currentIndex);
-  startAutoSlide();
-});
+
 
 
 function loadFeatures() {
     const featuresGrid = document.getElementById('featuresGrid');
     if (!featuresGrid) return;
-    
+
     const features = [
         {
             icon: 'fas fa-code',
@@ -376,7 +369,7 @@ function loadFeatures() {
             description: 'Help with Firebase, APIs, databases, and other backend services.'
         }
     ];
-    
+
     featuresGrid.innerHTML = features.map((feature, index) => `
         <div class="feature-card animate__animated animate__fadeInUp" style="animation-delay: ${index * 0.1}s">
             <div class="feature-icon">
@@ -386,7 +379,7 @@ function loadFeatures() {
             <p>${feature.description}</p>
         </div>
     `).join('');
-    
+
     // Add animation on scroll
     animateOnScroll();
 }
@@ -394,7 +387,7 @@ function loadFeatures() {
 /* Add scroll animation function */
 function animateOnScroll() {
     const elements = document.querySelectorAll('.animate-on-scroll, .feature-card');
-    
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -402,7 +395,7 @@ function animateOnScroll() {
             }
         });
     }, { threshold: 0.1 });
-    
+
     elements.forEach(element => {
         observer.observe(element);
     });
@@ -410,7 +403,7 @@ function animateOnScroll() {
 
 function loadOrderPage() {
     const mainContent = document.getElementById('main-content');
-    
+
     mainContent.innerHTML = `
         <section class="services-hero fade-in">
             <div class="container">
@@ -489,7 +482,7 @@ function loadOrderPage() {
         </section>
 
     `;
-    
+
     setTimeout(() => {
         loadPricingCards();
         loadFAQ();
@@ -501,7 +494,7 @@ function loadOrderPage() {
 }
 function loadServicesPage() {
     const mainContent = document.getElementById('main-content');
-    
+
     mainContent.innerHTML = `
         <section class="services-hero fade-in">
             <div class="container">
@@ -630,7 +623,7 @@ function loadServicesPage() {
         </section>
 
     `;
-    
+
     setTimeout(() => {
         loadPricingCards();
         loadFAQ();
@@ -654,7 +647,7 @@ function showGoogleForm() {
 function loadPricingCards() {
     const pricingGrid = document.getElementById('pricingGrid');
     if (!pricingGrid) return;
-    
+
     const plans = [
         {
             id: 1,
@@ -707,7 +700,7 @@ function loadPricingCards() {
             popular: false
         }
     ];
-    
+
     pricingGrid.innerHTML = plans.map((plan, index) => `
         <div class="pricing-card ${plan.popular ? 'popular' : ''} animate-on-scroll" style="animation-delay: ${index * 0.2}s">
 
@@ -775,7 +768,7 @@ function selectPlan(planName, price) {
 function loadFAQ() {
     const faqContainer = document.getElementById('faqContainer');
     if (!faqContainer) return;
-    
+
     const faqs = [
         {
             question: 'How quickly will I receive help?',
@@ -798,7 +791,7 @@ function loadFAQ() {
             answer: 'We offer revisions based on your plan. If you\'re still not satisfied, we provide a full refund for Basic and Project plans.'
         }
     ];
-    
+
     faqContainer.innerHTML = faqs.map((faq, index) => `
         <div class="faq-item ${index === 0 ? 'active' : ''}" onclick="toggleFAQ(this)">
             <div class="faq-question">
@@ -814,7 +807,7 @@ function loadFAQ() {
 
 function loadContactPage() {
     const mainContent = document.getElementById('main-content');
-    
+
     mainContent.innerHTML = `
         <section class="contact-hero fade-in">
             <div class="container">
@@ -905,20 +898,12 @@ function loadContactPage() {
             </div>
         </section>
         
-        <section class="testimonials">
-            <div class="container">
-                <h2>What Students Say</h2>
-                <div class="testimonial-slider" id="testimonialSlider">
-                    <!-- Testimonials will be loaded here -->
-                </div>
-            </div>
-        </section>
+        <!-- Testimonial Later impliment -->
     `;
-    
+
     // Load contact info, testimonials, and set up form
     setTimeout(() => {
         loadContactInfo();
-        loadTestimonials();
         setupContactForm();
         animateOnScroll();
     }, 100);
@@ -927,7 +912,7 @@ function loadContactPage() {
 function loadContactInfo() {
     const contactInfoList = document.getElementById('contactInfoList');
     if (!contactInfoList) return;
-    
+
     const contacts = [
         {
             icon: 'fas fa-envelope',
@@ -954,7 +939,7 @@ function loadContactInfo() {
             description: 'Serving students worldwide'
         }
     ];
-    
+
     contactInfoList.innerHTML = contacts.map((contact, index) => `
         <div class="contact-info-item animate-on-scroll" style="animation-delay: ${index * 0.1}s">
             <div class="contact-icon">
@@ -969,108 +954,14 @@ function loadContactInfo() {
     `).join('');
 }
 
-function loadTestimonials() {
-    const testimonialSlider = document.getElementById('testimonialSlider');
-    if (!testimonialSlider) return;
-    
-    const testimonials = [
-        {
-            content: 'AndroidMastery saved my Android course! I was struggling with my final project, and their expert help got me an A+. The code explanations were crystal clear.',
-            author: 'Sarah M.',
-            role: 'Computer Science Student',
-            initials: 'SM'
-        },
-        {
-            content: 'As an international student, I needed extra help understanding Android concepts. The personalized sessions were exactly what I needed to pass my exams.',
-            author: 'David L.',
-            role: 'International Student',
-            initials: 'DL'
-        },
-        {
-            content: 'The project package was worth every penny. They helped me build a complete e-commerce app that impressed my professor and boosted my portfolio.',
-            author: 'Michael T.',
-            role: 'Software Engineering Student',
-            initials: 'MT'
-        }
-    ];
-    
-    testimonialSlider.innerHTML = `
-        <div class="testimonial-track" id="testimonialTrack">
-            ${testimonials.map((testimonial, index) => `
-                <div class="testimonial-slide" data-index="${index}">
-                    <div class="testimonial-content">
-                        ${testimonial.content}
-                    </div>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">
-                            ${testimonial.initials}
-                        </div>
-                        <div class="author-info">
-                            <h4>${testimonial.author}</h4>
-                            <p>${testimonial.role}</p>
-                        </div>
-                    </div>
-                </div>
-            `).join('')}
-        </div>
-        <div class="slider-controls">
-            <button class="slider-btn" onclick="prevTestimonial()">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="slider-btn" onclick="nextTestimonial()">
-                <i class="fas fa-chevron-right"></i>
-            </button>
-        </div>
-        <div class="slider-dots" id="sliderDots">
-            ${testimonials.map((_, index) => `
-                <div class="slider-dot ${index === 0 ? 'active' : ''}" onclick="goToTestimonial(${index})"></div>
-            `).join('')}
-        </div>
-    `;
-    
-    // Initialize testimonial slider
-    currentTestimonialIndex = 0;
-    updateTestimonialSlider();
-}
-
-let currentTestimonialIndex = 0;
-const totalTestimonials = 3;
-
-function updateTestimonialSlider() {
-    const track = document.getElementById('testimonialTrack');
-    const dots = document.querySelectorAll('.slider-dot');
-    
-    if (track) {
-        track.style.transform = `translateX(-${currentTestimonialIndex * 100}%)`;
-    }
-    
-    dots.forEach((dot, index) => {
-        dot.classList.toggle('active', index === currentTestimonialIndex);
-    });
-}
-
-function nextTestimonial() {
-    currentTestimonialIndex = (currentTestimonialIndex + 1) % totalTestimonials;
-    updateTestimonialSlider();
-}
-
-function prevTestimonial() {
-    currentTestimonialIndex = (currentTestimonialIndex - 1 + totalTestimonials) % totalTestimonials;
-    updateTestimonialSlider();
-}
-
-function goToTestimonial(index) {
-    currentTestimonialIndex = index;
-    updateTestimonialSlider();
-}
 
 function setupContactForm() {
     const contactForm = document.getElementById('contactForm');
     if (!contactForm) return;
-    
-    contactForm.addEventListener('submit', function(e) {
+
+    contactForm.addEventListener('submit', function (e) {
         e.preventDefault();
-        
+
         // Get form values
         const formData = {
             name: document.getElementById('name').value,
@@ -1080,15 +971,15 @@ function setupContactForm() {
             urgency: document.getElementById('urgency').value,
             timestamp: new Date().toISOString()
         };
-        
+
         // Save to localStorage
         let contacts = JSON.parse(localStorage.getItem('contactMessages')) || [];
         contacts.push(formData);
         localStorage.setItem('contactMessages', JSON.stringify(contacts));
-        
+
         // Show success message
         alert('Thank you! Your message has been sent. We will respond within 2-4 hours.');
-        
+
         // Reset form
         contactForm.reset();
     });
@@ -1097,24 +988,18 @@ function setupContactForm() {
 // Add FAQ toggle function
 function toggleFAQ(faqItem) {
     const isActive = faqItem.classList.contains('active');
-    
+
     // Close all FAQ items
     document.querySelectorAll('.faq-item').forEach(item => {
         item.classList.remove('active');
     });
-    
+
     // Open clicked item if it wasn't active
     if (!isActive) {
         faqItem.classList.add('active');
     }
 }
 
-// Add auto-rotate testimonials
-setInterval(() => {
-    if (document.getElementById('testimonialSlider')) {
-        nextTestimonial();
-    }
-}, 5000);
 
 
 function loadGoogleForm(packageName, price) {
@@ -1123,7 +1008,7 @@ function loadGoogleForm(packageName, price) {
 
     // Replace with your actual Google Form URL
     const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSdM7NATFPq5Hxj8sp2HXjnHpcx8gzh6AmtofmxZxM8fhv9aWw/viewform?embedded=true";
-    
+
     // Create iframe for Google Form
     container.innerHTML = `
         <div class="form-header" style="margin-bottom: 20px;">
@@ -1137,7 +1022,7 @@ function loadGoogleForm(packageName, price) {
             <p>By submitting this form, you confirm that you have completed the bKash payment</p>
         </div>
     `;
-    
+
     // Update direct link
     document.getElementById('directFormLink').href = formUrl.replace('embedded=true', '');
 }
@@ -1226,20 +1111,20 @@ function selectPackage(packageId, packageName, price) {
     // Update display
     document.getElementById('selectedPackageName').textContent = packageName;
     document.getElementById('selectedPackagePrice').textContent = `৳${price}`;
-    
+
     // Show payment instructions
     document.getElementById('paymentInstructions').style.display = 'block';
-    
+
     // Scroll to payment instructions
     document.getElementById('paymentInstructions').scrollIntoView({ behavior: 'smooth' });
-    
+
 
 }
 
 
 function loadBKashPaymentsTab() {
     const payments = JSON.parse(localStorage.getItem('bKashPayments')) || [];
-    
+
     return `
         <div class="data-table-container">
             <h3 style="margin-bottom: 20px;">bKash Payment Records (${payments.length})</h3>
@@ -1331,7 +1216,7 @@ function loadBKashPaymentsTab() {
 function viewBKashPayment(paymentId) {
     const payments = JSON.parse(localStorage.getItem('bKashPayments')) || [];
     const payment = payments.find(p => p.id === paymentId);
-    
+
     if (payment) {
         alert(`
         📋 PAYMENT DETAILS
@@ -1372,13 +1257,13 @@ function verifyPayment(paymentId) {
     if (confirm('Mark this payment as verified?')) {
         let payments = JSON.parse(localStorage.getItem('bKashPayments')) || [];
         const paymentIndex = payments.findIndex(p => p.id === paymentId);
-        
+
         if (paymentIndex !== -1) {
             payments[paymentIndex].status = 'verified';
             payments[paymentIndex].verified = true;
             payments[paymentIndex].verifiedAt = new Date().toISOString();
             localStorage.setItem('bKashPayments', JSON.stringify(payments));
-            
+
             showToast('Verified', 'Payment marked as verified', 'success');
             loadAdminPage(); // Refresh admin page
         }
@@ -1389,7 +1274,7 @@ function verifyAllPayments() {
     if (confirm('Verify all pending payments?')) {
         let payments = JSON.parse(localStorage.getItem('bKashPayments')) || [];
         const verificationTime = new Date().toISOString();
-        
+
         payments = payments.map(p => {
             if (p.status === 'pending') {
                 return {
@@ -1401,7 +1286,7 @@ function verifyAllPayments() {
             }
             return p;
         });
-        
+
         localStorage.setItem('bKashPayments', JSON.stringify(payments));
         showToast('Verified', 'All pending payments verified', 'success');
         loadAdminPage(); // Refresh admin page
@@ -1410,11 +1295,11 @@ function verifyAllPayments() {
 
 function loadAdminPage() {
     const mainContent = document.getElementById('main-content');
-    
+
     // Get stored data
     const payments = JSON.parse(localStorage.getItem('paymentData')) || [];
     const contacts = JSON.parse(localStorage.getItem('contactMessages')) || [];
-    
+
     mainContent.innerHTML = `
         <section class="admin-hero fade-in">
             <div class="container">
@@ -1433,9 +1318,9 @@ function loadAdminPage() {
                 <div class="tab-content">
                     <div id="paymentsTab" class="tab-pane active">
                         <h2>Payment Records</h2>
-                        ${payments.length === 0 ? 
-                            '<p>No payment records found.</p>' : 
-                            `<div class="table-container">
+                        ${payments.length === 0 ?
+            '<p>No payment records found.</p>' :
+            `<div class="table-container">
                                 <table class="admin-table">
                                     <thead>
                                         <tr>
@@ -1466,14 +1351,14 @@ function loadAdminPage() {
                                     </tbody>
                                 </table>
                             </div>`
-                        }
+        }
                     </div>
                     
                     <div id="messagesTab" class="tab-pane">
                         <h2>Contact Messages</h2>
-                        ${contacts.length === 0 ? 
-                            '<p>No messages found.</p>' : 
-                            `<div class="messages-container">
+                        ${contacts.length === 0 ?
+            '<p>No messages found.</p>' :
+            `<div class="messages-container">
                                 ${contacts.map((message, index) => `
                                     <div class="message-card">
                                         <div class="message-header">
@@ -1491,13 +1376,13 @@ function loadAdminPage() {
                                     </div>
                                 `).join('')}
                             </div>`
-                        }
+        }
                     </div>
                 </div>
             </div>
         </section>
     `;
-    
+
     animateOnScroll();
 }
 
@@ -1509,19 +1394,19 @@ function switchAdminTab(tabName) {
             btn.classList.add('active');
         }
     });
-    
+
     // Update tab content
     document.querySelectorAll('.tab-pane').forEach(pane => {
         pane.classList.remove('active');
     });
-    
+
     document.getElementById(tabName + 'Tab').classList.add('active');
 }
 
 function viewPayment(id) {
     const payments = JSON.parse(localStorage.getItem('paymentData')) || [];
     const payment = payments.find(p => p.id === id);
-    
+
     if (payment) {
         alert(`Payment Details:\n
 ID: ${payment.id}
@@ -1579,23 +1464,23 @@ function loadAdminPage() {
         loadPage('home');
         return;
     }
-    
+
     const mainContent = document.getElementById('main-content');
-    
+
     // Get data from localStorage
     const payments = JSON.parse(localStorage.getItem('paymentData')) || [];
     const contacts = JSON.parse(localStorage.getItem('contactMessages')) || [];
-    
+
     // Calculate totals
     const totalRevenue = payments.reduce((sum, payment) => {
-        const amount = typeof payment.amount === 'number' ? payment.amount : 
-                      payment.amount === 'Custom' ? 0 : parseInt(payment.amount) || 0;
+        const amount = typeof payment.amount === 'number' ? payment.amount :
+            payment.amount === 'Custom' ? 0 : parseInt(payment.amount) || 0;
         return sum + amount;
     }, 0);
-    
+
     const pendingPayments = payments.filter(p => p.status === 'pending').length;
     const completedPayments = payments.filter(p => p.status === 'completed').length;
-    
+
     mainContent.innerHTML = `
         <section class="admin-hero fade-in">
             <div class="container">
@@ -1812,7 +1697,7 @@ function loadAdminPage() {
             </div>
         </section>
     `;
-    
+
     animateOnScroll();
 }
 
@@ -1824,19 +1709,19 @@ function switchAdminTab(tabName) {
             tab.classList.add('active');
         }
     });
-    
+
     // Update content
     document.querySelectorAll('.tab-content').forEach(content => {
         content.classList.remove('active');
     });
-    
+
     document.getElementById(tabName + 'Tab').classList.add('active');
 }
 
 function viewPayment(id) {
     const payments = JSON.parse(localStorage.getItem('paymentData')) || [];
     const payment = payments.find(p => p.id === id);
-    
+
     if (payment) {
         alert(`Payment Details:\n
 ID: #${payment.id.toString().slice(-6)}
@@ -1849,7 +1734,7 @@ Date: ${new Date(payment.timestamp).toLocaleString()}
 Status: ${payment.status || 'pending'}
 Project Details: ${payment.projectDetails || 'N/A'}
         `);
-        
+
         // Option to update status
         const newStatus = prompt('Update status (pending/completed/cancelled):', payment.status || 'pending');
         if (newStatus && ['pending', 'completed', 'cancelled'].includes(newStatus)) {
@@ -1872,7 +1757,7 @@ function deletePayment(id) {
 function viewMessage(index) {
     const contacts = JSON.parse(localStorage.getItem('contactMessages')) || [];
     const message = contacts[index];
-    
+
     if (message) {
         alert(`Message Details:\n
 Name: ${message.name}
@@ -1897,15 +1782,15 @@ function deleteMessage(index) {
 function exportData(format) {
     const payments = JSON.parse(localStorage.getItem('paymentData')) || [];
     const contacts = JSON.parse(localStorage.getItem('contactMessages')) || [];
-    
+
     let data;
     let filename;
     let mimeType;
-    
+
     if (format === 'excel') {
         // Convert to CSV format (Excel can open CSV)
         const headers = ['ID,Name,Email,Plan,Amount,Method,Date,Status'];
-        const rows = payments.map(p => 
+        const rows = payments.map(p =>
             `${p.id},"${p.name}","${p.email}","${p.plan}",${p.amount},"${p.method}","${new Date(p.timestamp).toLocaleDateString()}","${p.status || 'pending'}"`
         );
         data = [...headers, ...rows].join('\n');
@@ -1922,7 +1807,7 @@ function exportData(format) {
         console.log('Messages:', contacts);
         return;
     }
-    
+
     // Create download link
     const blob = new Blob([data], { type: mimeType });
     const url = window.URL.createObjectURL(blob);
@@ -1933,7 +1818,7 @@ function exportData(format) {
     a.click();
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
-    
+
     alert(`Data exported successfully as ${filename}`);
 }
 
@@ -1943,22 +1828,22 @@ function exportData(format) {
 function initFinalFeatures() {
     // Add chat widget
     addChatWidget();
-    
+
     // Add toast container
     addToastContainer();
-    
+
     // Add back to top button
     addBackToTop();
-    
+
     // Add progress bar
     addProgressBar();
-    
+
     // Add cookie consent
     addCookieConsent();
-    
+
     // Add scroll progress tracking
     setupScrollTracking();
-    
+
     // Add keyboard navigation
     setupKeyboardNavigation();
 }
@@ -2000,11 +1885,11 @@ function addChatWidget() {
             </div>
         </div>
     `;
-    
+
     document.body.insertAdjacentHTML('beforeend', chatHTML);
-    
+
     // Enter key to send message
-    document.getElementById('chatInput')?.addEventListener('keypress', function(e) {
+    document.getElementById('chatInput')?.addEventListener('keypress', function (e) {
         if (e.key === 'Enter') {
             sendChatMessage();
         }
@@ -2021,24 +1906,24 @@ function toggleChat() {
 function sendChatMessage() {
     const input = document.getElementById('chatInput');
     const messages = document.getElementById('chatMessages');
-    
+
     if (!input || !messages || !input.value.trim()) return;
-    
+
     // Add user message
     const userMessage = document.createElement('div');
     userMessage.className = 'chat-message user';
     userMessage.innerHTML = `
         <div class="message-bubble">${input.value}</div>
-        <span class="message-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+        <span class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
     `;
     messages.appendChild(userMessage);
-    
+
     const userQuestion = input.value.toLowerCase();
     input.value = '';
-    
+
     // Scroll to bottom
     messages.scrollTop = messages.scrollHeight;
-    
+
     // Simulate bot response after delay
     setTimeout(() => {
         const botResponse = getBotResponse(userQuestion);
@@ -2046,7 +1931,7 @@ function sendChatMessage() {
         botMessage.className = 'chat-message bot';
         botMessage.innerHTML = `
             <div class="message-bubble">${botResponse}</div>
-            <span class="message-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+            <span class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
         `;
         messages.appendChild(botMessage);
         messages.scrollTop = messages.scrollHeight;
@@ -2066,13 +1951,13 @@ function getBotResponse(question) {
         'payment': 'We accept credit cards, PayPal, crypto, and bank transfers.',
         'contact': 'Email us at ashik4745@gmail.com or call +1 (555) 123-4567.'
     };
-    
+
     for (const [key, response] of Object.entries(responses)) {
         if (question.includes(key)) {
             return response;
         }
     }
-    
+
     return "I'm here to help with Android and Flutter development! For specific questions, please use the contact form or check our Services page.";
 }
 
@@ -2085,7 +1970,7 @@ function addToastContainer() {
 function showToast(title, message, type = 'info', duration = 5000) {
     const container = document.getElementById('toastContainer');
     if (!container) return;
-    
+
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
     toast.innerHTML = `
@@ -2100,12 +1985,12 @@ function showToast(title, message, type = 'info', duration = 5000) {
             <i class="fas fa-times"></i>
         </button>
     `;
-    
+
     container.appendChild(toast);
-    
+
     // Show toast with animation
     setTimeout(() => toast.classList.add('show'), 10);
-    
+
     // Auto remove after duration
     setTimeout(() => {
         if (toast.parentElement) {
@@ -2126,7 +2011,7 @@ function addBackToTop() {
 }
 
 function setupScrollTracking() {
-    window.addEventListener('scroll', function() {
+    window.addEventListener('scroll', function () {
         // Back to top button
         const backToTop = document.getElementById('backToTop');
         if (backToTop) {
@@ -2136,7 +2021,7 @@ function setupScrollTracking() {
                 backToTop.classList.remove('show');
             }
         }
-        
+
         // Progress bar
         const progressBar = document.querySelector('.progress-bar');
         if (progressBar) {
@@ -2164,7 +2049,7 @@ function addProgressBar() {
 // Cookie consent
 function addCookieConsent() {
     if (localStorage.getItem('cookiesAccepted')) return;
-    
+
     setTimeout(() => {
         const consentHTML = `
             <div class="cookie-consent active" id="cookieConsent">
@@ -2201,7 +2086,7 @@ function declineCookies() {
 
 // Keyboard navigation
 function setupKeyboardNavigation() {
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
         // Ctrl + / to focus search
         if (e.ctrlKey && e.key === '/') {
             e.preventDefault();
@@ -2210,7 +2095,7 @@ function setupKeyboardNavigation() {
                 chatInput.focus();
             }
         }
-        
+
         // Escape to close modals/chat
         if (e.key === 'Escape') {
             const chatContainer = document.getElementById('chatContainer');
@@ -2218,7 +2103,7 @@ function setupKeyboardNavigation() {
                 toggleChat();
             }
         }
-        
+
         // Alt + 1-5 for navigation
         if (e.altKey && e.key >= '1' && e.key <= '5') {
             e.preventDefault();
@@ -2243,7 +2128,7 @@ function trackEvent(eventName, data = {}) {
             userAgent: navigator.userAgent
         });
         localStorage.setItem('analyticsEvents', JSON.stringify(events));
-        
+
         // Log to console in development
         if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
             console.log(`Event: ${eventName}`, data);
@@ -2255,10 +2140,10 @@ function trackEvent(eventName, data = {}) {
 // function loadPage(page) {
 //     currentPage = page;
 //     const mainContent = document.getElementById('main-content');
-    
+
 //     // Track page view
 //     trackEvent('page_view', { page: page });
-    
+
 //     // ... rest of existing loadPage function ...
 // }
 
@@ -2268,13 +2153,13 @@ function initWebsite() {
     loadFooter();
     loadPage('home');
     initFinalFeatures(); // Add this line
-    
+
     // Set up service worker for PWA
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/service-worker.js')
             .catch(err => console.log('Service Worker registration failed: ', err));
     }
-    
+
     // Show welcome message
     setTimeout(() => {
         showToast('Welcome!', 'Get expert help with Android & Flutter development.', 'info', 3000);
@@ -2284,7 +2169,7 @@ function initWebsite() {
 // Lazy loading for images
 function lazyLoadImages() {
     const images = document.querySelectorAll('img[data-src]');
-    
+
     const imageObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -2295,14 +2180,14 @@ function lazyLoadImages() {
             }
         });
     });
-    
+
     images.forEach(img => imageObserver.observe(img));
 }
 
 // Add to DOMContentLoaded
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // ... existing code ...
-    
+
     // Call lazy loading after page loads
     setTimeout(lazyLoadImages, 500);
 
