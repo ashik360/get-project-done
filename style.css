@@ -628,13 +628,15 @@ p {
 }
 
 .cta-section .btn {
-    background: var(--accent-color);
+    background: var(--white);
+    color: var(--primary-color);
     font-size: 1.2rem;
     padding: 15px 40px;
 }
 
 .cta-section .btn:hover {
-    background: #ff5722;
+    background: var(--secondary-color);
+    color: var(--white);
 }
 
 /* Footer Styles Update */
@@ -867,13 +869,22 @@ p {
 }
 
 .pricing-btn {
-    display: block;
-    width: 100%;
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
     padding: 15px;
     text-align: center;
     font-size: 1.1rem;
     font-weight: 600;
 }
+
+.pricing-btn:hover {
+    position: absolute;
+    left: 5%;
+}
+
 
 /* How It Works Section */
 .how-it-works {
@@ -2510,6 +2521,7 @@ body {
     grid-template-columns: 1fr 1fr;
     gap: 40px;
     align-items: center;
+    margin-top: 2.5rem;
 }
 
 .hero-intro h1 {
@@ -2537,6 +2549,7 @@ body {
     width: 100%;
     max-width: 500px;
     animation: float 6s ease-in-out infinite;
+    border-radius: 10%;
 }
 
 @keyframes float {
@@ -3184,5 +3197,63 @@ body {
     .instruction-grid {
         grid-template-columns: 1fr;
     }
+}
+
+
+/* Facts Section */
+.facts-alt {
+    padding: 80px 0;
+    background: #f7f9fc;
+    text-align: center;
+}
+
+.facts-title {
+    font-size: 2.3rem;
+    margin-bottom: 40px;
+    font-weight: 700;
+}
+
+.facts-grid {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+}
+
+.fact-card {
+    background: #fff;
+    padding: 30px;
+    width: 260px;
+    border-radius: 15px;
+    box-shadow: 0px 10px 25px rgba(0,0,0,0.08);
+    transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.fact-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0px 20px 40px rgba(0,0,0,0.12);
+}
+
+.fact-icon {
+    font-size: 3rem;
+    color: #007bff;
+    margin-bottom: 15px;
+}
+
+.fact-number {
+    font-size: 2.8rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+    color: #333;
+    line-height: 40;
+}
+
+.fact-card h3 {
+    font-size: 2.5rem;
+}
+.fact-card h3 span:last-child {
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
 }
 
