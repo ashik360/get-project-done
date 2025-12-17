@@ -667,7 +667,7 @@ function loadPricingCards() {
         {
             id: 2,
             title: 'Project Package',
-            price: 2000,
+            price: 2500,
             period: 'Per Project',
             features: [
                 'Complete project assistance',
@@ -1051,8 +1051,8 @@ function loadPackages() {
             id: 'advanced',
             name: 'Advanced Package',
             description: 'Comprehensive support for larger projects',
-            price: 2000,
-            originalPrice: 2000,
+            price: 2500,
+            originalPrice: 2500,
             features: [
                 'Full Project Assistance',
                 'Detailed Code Review',
@@ -2069,7 +2069,7 @@ function addCookieConsent() {
             </div>
         `;
         document.body.insertAdjacentHTML('beforeend', consentHTML);
-    }, 2000);
+    }, 2500);
 }
 
 function acceptCookies() {
@@ -2192,3 +2192,4 @@ document.addEventListener('DOMContentLoaded', function () {
     setTimeout(lazyLoadImages, 500);
 
 });
+
