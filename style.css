@@ -1216,8 +1216,12 @@ textarea.form-control {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .pricing-card{
+        margin-right: .9rem;
+    }
     .pricing-card.popular {
         transform: none;
+        margin-right: .9rem;
     }
 
     .contact-form-container,
@@ -3413,5 +3417,44 @@ body {
 /* Improve digit contrast */
 .cta-alt .digit {
     background: rgba(255, 255, 255, 0.08);
+}
+
+@media (max-width: 768px) {
+  .countdown-wrapper {
+    flex-direction: column;
+  }
+}
+
+.hero-title-carousel {
+  position: relative;
+  height: 7.0rem;
+  overflow: hidden;
+}
+
+.hero-title-carousel .title {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  inset: 0;
+  top: 0;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.hero-title-carousel .title.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-title-carousel span span {
+  color: #4caf50; /* highlight color */
+}
+
+/* Mobile fix */
+@media (max-width: 768px) {
+  .hero-title-carousel {
+    min-height: 5rem;
+  }
 }
 
