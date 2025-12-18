@@ -169,6 +169,86 @@ function loadPage(page) {
 }
 
 // Placeholder for page loading functions
+
+let countdownInterval;
+
+function startCountdown() {
+    // ✅ Correct guard (check first digit)
+    if (!document.getElementById('s1')) return;
+
+    if (countdownInterval) clearInterval(countdownInterval);
+
+    const targetDate = new Date(2026, 0, 1, 0, 1, 0);
+
+    function update() {
+        const diff = targetDate - new Date();
+
+        if (diff <= 0) {
+            clearInterval(countdownInterval);
+
+            // Hide countdown
+            document.querySelector('.countdown-wrapper').style.display = 'none';
+
+            // Show greeting
+            document.getElementById('greetingMessage').classList.remove('hidden');
+
+            return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+
+        updateTwoDigits('d', days);
+        updateTwoDigits('h', hours);
+        updateTwoDigits('m', minutes);
+        updateTwoDigits('s', seconds);
+    }
+
+    update();
+    countdownInterval = setInterval(update, 1000);
+}
+
+
+
+function updateTwoDigits(prefix, value) {
+    const str = String(value).padStart(2, '0');
+
+    updateSingleDigit(prefix + '1', str[0]);
+    updateSingleDigit(prefix + '2', str[1]);
+}
+
+function updateSingleDigit(id, newVal) {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    if (el.textContent !== newVal) {
+        el.classList.remove('flip');
+        void el.offsetWidth;
+        el.textContent = newVal;
+        el.classList.add('flip');
+    }
+}
+
+function updateSingleDigit(id, newVal) {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    if (el.textContent !== newVal) {
+        el.classList.remove('flip');
+        void el.offsetWidth; // reflow to restart animation
+        el.classList.add('flip');
+
+        // Change text halfway through animation
+        setTimeout(() => {
+            el.textContent = newVal;
+        }, 300); // half of 0.6s animation
+    }
+}
+
+
+
 function loadHomePage() {
     const mainContent = document.getElementById('main-content');
 
@@ -195,6 +275,60 @@ function loadHomePage() {
                 </div>
             </div>
         </section>
+
+        <!-- Countdown Timer Section -->
+        <section class="cta-alt">
+            <div class="container">
+                <!-- Title -->
+        <h2 class="countdown-title">
+            Enrollment Closes Soon
+        </h2>
+                <div class="countdown-wrapper">
+                    <div class="time-box">
+                        <div class="time-value">
+                            <span class="digit" id="d1">0</span>
+                            <span class="digit" id="d2">0</span>
+                        </div>
+                        <span class="time-label">Days</span>
+                    </div>
+
+                    <div class="time-box">
+                        <div class="time-value">
+                            <span class="digit" id="h1">0</span>
+                            <span class="digit" id="h2">0</span>
+                        </div>
+                        <span class="time-label">Hours</span>
+                    </div>
+
+                    <div class="time-box">
+                        <div class="time-value">
+                            <span class="digit" id="m1">0</span>
+                            <span class="digit" id="m2">0</span>
+                        </div>
+                        <span class="time-label">Minutes</span>
+                    </div>
+
+                    <div class="time-box">
+                        <div class="time-value">
+                            <span class="digit" id="s1">0</span>
+                            <span class="digit" id="s2">0</span>
+                        </div>
+                        <span class="time-label">Seconds</span>
+                    </div>
+
+                </div>
+                 <!-- Subtitle -->
+        <p class="countdown-subtitle">
+            Don’t miss the opportunity — enrollment closes soon. 🎯
+        </p>
+            </container>
+            
+        </section>
+        <div id="greetingMessage" class="greeting hidden">
+            <h1>🎉 Happy New Year 2026 🎉</h1>
+            <p>The time has ended to enroll.<br>Good luck! 🍀</p>
+        </div>
+
 
         <!-- Services Section -->
         <section class="services">
@@ -248,7 +382,6 @@ function loadHomePage() {
         </div>
         </section>
 
-
         <!-- Facts Section (Improved) -->
         <section class="facts-alt">
             <div class="container">
@@ -276,7 +409,6 @@ function loadHomePage() {
             </div>
         </section>
 
-
         <!-- Call to Action -->
         <section class="cta-alt">
             <div class="container">
@@ -288,8 +420,13 @@ function loadHomePage() {
             </div>
         </section>
     `;
+
+    // Call the countdown function to start the timer
+    startCountdown();
+
     animateFacts();
 }
+
 
 function animateFacts() {
     const numbers = document.querySelectorAll(".fact-number");
@@ -667,7 +804,7 @@ function loadPricingCards() {
         {
             id: 2,
             title: 'Project Package',
-            price: 2500,
+            price: 2000,
             period: 'Per Project',
             features: [
                 'Complete project assistance',
@@ -1051,8 +1188,8 @@ function loadPackages() {
             id: 'advanced',
             name: 'Advanced Package',
             description: 'Comprehensive support for larger projects',
-            price: 2500,
-            originalPrice: 2500,
+            price: 2000,
+            originalPrice: 2000,
             features: [
                 'Full Project Assistance',
                 'Detailed Code Review',
@@ -2069,7 +2206,7 @@ function addCookieConsent() {
             </div>
         `;
         document.body.insertAdjacentHTML('beforeend', consentHTML);
-    }, 2500);
+    }, 2000);
 }
 
 function acceptCookies() {
@@ -2192,4 +2329,3 @@ document.addEventListener('DOMContentLoaded', function () {
     setTimeout(lazyLoadImages, 500);
 
 });
-
