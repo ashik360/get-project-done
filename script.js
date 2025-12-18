@@ -258,7 +258,11 @@ function loadHomePage() {
             <div class="container">
                 <div class="hero-grid">
                     <div class="hero-intro">
-                        <h1><span>Elevate</span> Your Android & Flutter Skills</h1>
+                        <h1 class="hero-title-carousel">
+                            <span class="title active"><span>Elevate</span> Your Android Skills</span>
+                            <span class="title">Master <span>Flutter</span> Development</span>
+                            <span class="title">Build <span>Real-World</span> Applications</span>
+                        </h1>
                         <p>Learn smarter, build faster, and stand out as a developer. Get mentorship, resources, and real-world project guidance tailored to your journey.</p>
                         <div class="hero-actions">
                             <a href="#" class="btn btn-primary" onclick="loadPage('checkout'); return false;">
@@ -804,7 +808,7 @@ function loadPricingCards() {
         {
             id: 2,
             title: 'Project Package',
-            price: 2000,
+            price: 2500,
             period: 'Per Project',
             features: [
                 'Complete project assistance',
@@ -1046,6 +1050,7 @@ function loadContactPage() {
     }, 100);
 }
 
+
 function loadContactInfo() {
     const contactInfoList = document.getElementById('contactInfoList');
     if (!contactInfoList) return;
@@ -1188,8 +1193,8 @@ function loadPackages() {
             id: 'advanced',
             name: 'Advanced Package',
             description: 'Comprehensive support for larger projects',
-            price: 2000,
-            originalPrice: 2000,
+            price: 2500,
+            originalPrice: 2500,
             features: [
                 'Full Project Assistance',
                 'Detailed Code Review',
@@ -2323,9 +2328,46 @@ function lazyLoadImages() {
 
 // Add to DOMContentLoaded
 document.addEventListener('DOMContentLoaded', function () {
-    // ... existing code ...
+    // Code to be write
 
     // Call lazy loading after page loads
     setTimeout(lazyLoadImages, 500);
 
+});
+
+// For Hero Carousel and Testimonial Section
+
+document.addEventListener("DOMContentLoaded", function () {
+    const titles = document.querySelectorAll(".hero-title-carousel .title");
+    let index = 0;
+
+    setInterval(() => {
+        titles[index].classList.remove("active");
+        index = (index + 1) % titles.length;
+        titles[index].classList.add("active");
+    }, 3000);
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const testimonials = document.querySelectorAll('.testimonial');
+    const dots = document.querySelectorAll('.dot');
+    let currentIndex = 0;
+
+    function showTestimonial(index) {
+        testimonials.forEach((item, i) => {
+            item.classList.remove('active');
+            dots[i].classList.remove('active');
+        });
+
+        testimonials[index].classList.add('active');
+        dots[index].classList.add('active');
+    }
+
+    function autoSlide() {
+        currentIndex = (currentIndex + 1) % testimonials.length;
+        showTestimonial(currentIndex);
+    }
+
+    // Start auto slide
+    setInterval(autoSlide, 3000);
 });
