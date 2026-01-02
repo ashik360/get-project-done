@@ -285,7 +285,7 @@ function loadHomePage() {
             <div class="container">
                 <!-- Title -->
         <h2 class="countdown-title">
-            Enrollment Closes Soon
+            Enrollment Closed!!
         </h2>
                 <div class="countdown-wrapper">
                     <div class="time-box">
@@ -323,7 +323,7 @@ function loadHomePage() {
                 </div>
                  <!-- Subtitle -->
         <p class="countdown-subtitle">
-            Don’t miss the opportunity — enrollment closes soon. 🎯
+            Enrollment closed. 🎯
         </p>
             </container>
             
@@ -2371,3 +2371,4 @@ document.addEventListener("DOMContentLoaded", function () {
     // Start auto slide
     setInterval(autoSlide, 3000);
 });
+
